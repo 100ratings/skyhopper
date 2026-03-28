@@ -5193,8 +5193,8 @@
     if (e.pointerId !== swipeInputPointerId) return;
     if (!swipeInputStartPos || !swipeInputLastPos) return;
     
-    var dx = e.clientX - swipeInputLastPos.x;
-    var dy = e.clientY - swipeInputLastPos.y;
+    var dx = e.clientX - swipeInputStartPos.x;
+    var dy = e.clientY - swipeInputStartPos.y;
     var dist = Math.hypot(dx, dy);
     
     if (dist >= swipeInputThreshold) {
@@ -5206,6 +5206,8 @@
       }
       
       swipeInputArrows.push(arrow);
+      // Resetar a posição inicial para o próximo swipe no mesmo toque
+      swipeInputStartPos = { x: e.clientX, y: e.clientY };
       swipeInputLastPos = { x: e.clientX, y: e.clientY };
       
       if (swipeInputArrows.length === 4) {
@@ -5255,6 +5257,7 @@
 
   function init() {
     try {
+      swipeInputArrows = [];
       maybeStripCacheBustParam();
     } catch (e) {}
     initDom();
