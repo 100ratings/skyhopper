@@ -506,7 +506,7 @@
     pt: {
       menuCharacterSelection: 'Seleção de personagem',
       menuPlayerName: 'APELIDO',
-      menuPlayerNamePlaceholder: 'Para o ranking — use .nome para entrar na sessão do host',
+      menuPlayerNamePlaceholder: 'Para o ranking',
       leaderboardDefaultName: 'Jogador',
       menuPlay: 'Jogar',
       pairingResolveFailed: 'Não foi possível parear. Verifique o apelido ou registro do host.',
