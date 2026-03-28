@@ -1230,6 +1230,7 @@
   var swipeInputLastPos = null; // Última posição do dedo
   var swipeInputPointerId = null; // ID do pointer para rastrear o toque
   var swipeInputThreshold = 30; // Distância mínima em pixels para registrar um swipe
+  var swipeInputRegisteredInThisTouch = false; // Trava para um swipe por toque
 
   function parseSpectatorKeyFromUrl() {
     try {
@@ -5188,9 +5189,11 @@
     swipeInputPointerId = e.pointerId;
     swipeInputStartPos = { x: e.clientX, y: e.clientY };
     swipeInputLastPos = { x: e.clientX, y: e.clientY };
+    swipeInputRegisteredInThisTouch = false;
   }
   function onSwipeInputPointerMove(e) {
     if (e.pointerId !== swipeInputPointerId) return;
+    if (swipeInputRegisteredInThisTouch) return; // Ja registrou um swipe neste toque, ignorar o resto
     if (!swipeInputStartPos || !swipeInputLastPos) return;
     
     var dx = e.clientX - swipeInputStartPos.x;
@@ -5206,9 +5209,7 @@
       }
       
       swipeInputArrows.push(arrow);
-      // Resetar a posição inicial para o próximo swipe no mesmo toque
-      swipeInputStartPos = { x: e.clientX, y: e.clientY };
-      swipeInputLastPos = { x: e.clientX, y: e.clientY };
+      swipeInputRegisteredInThisTouch = true; // Travar ate o pointerup
       
       if (swipeInputArrows.length === 4) {
         processSwipeFourInputs();
