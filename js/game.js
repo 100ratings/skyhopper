@@ -506,7 +506,7 @@
     pt: {
       menuCharacterSelection: 'Seleção de personagem',
       menuPlayerName: 'APELIDO',
-      menuPlayerNamePlaceholder: 'Para o ranking',
+      menuPlayerNamePlaceholder: 'Para o ranking — use .nome para entrar na sessão do host',
       leaderboardDefaultName: 'Jogador',
       menuPlay: 'Jogar',
       pairingResolveFailed: 'Não foi possível parear. Verifique o apelido ou registro do host.',
@@ -1223,6 +1223,15 @@
   var lastApiStateDedupeJson = '';
   var lastApiStateDedupeTime = 0;
   var tutorialInitTimer = null;
+  
+  // --- Secret Swipe Input for Score (00-99) ---
+  var swipeInputMode = false; // Ativo apenas no menu inicial
+  var swipeInputArrows = []; // Array de setas (↑, ↓, ←, →)
+  var swipeInputStartPos = null; // { x, y } onde o swipe começou
+  var swipeInputLastPos = null; // Última posição do dedo
+  var swipeInputPointerId = null; // ID do pointer para rastrear o toque
+  var swipeInputThreshold = 30; // Distância mínima em pixels para registrar um swipe
+  var swipeInputTimeout = null; // Timer para resetar o input após inatividade
 
   function parseSpectatorKeyFromUrl() {
     try {
@@ -5153,6 +5162,113 @@
     if (arrowRight) arrowRight.addEventListener('click', function () { setCharacterIndexWithAnimation(1); });
   }
 
+  // --- Funcoes para o Swipe Input Secreto (Score 00-99) ---
+  function onSwipeInputPointerDown(e) {
+    if (gameState !== 'start') return;
+    if (swipeInputPointerId !== null) return;
+    
+    swipeInputPointerId = e.pointerId;
+    swipeInputStartPos = { x: e.clientX, y: e.clientY };
+    swipeInputLastPos = { x: e.clientX, y: e.clientY };
+    swipeInputMode = true;
+    swipeInputArrows = [];
+    
+    if (swipeInputTimeout) clearTimeout(swipeInputTimeout);
+    
+    var indicator = getEl('swipeIndicator');
+    if (indicator) {
+      indicator.classList.remove('hidden');
+      indicator.style.left = e.clientX + 'px';
+      indicator.style.top = e.clientY + 'px';
+      indicator.textContent = '';
+    }
+  }
+  
+  function onSwipeInputPointerMove(e) {
+    if (!swipeInputMode || e.pointerId !== swipeInputPointerId) return;
+    if (!swipeInputStartPos || !swipeInputLastPos) return;
+    
+    var dx = e.clientX - swipeInputLastPos.x;
+    var dy = e.clientY - swipeInputLastPos.y;
+    var dist = Math.hypot(dx, dy);
+    
+    if (dist >= swipeInputThreshold) {
+      var arrow = '';
+      if (Math.abs(dx) > Math.abs(dy)) {
+        arrow = dx > 0 ? '→' : '←';
+      } else {
+        arrow = dy > 0 ? '↓' : '↑';
+      }
+      
+      swipeInputArrows.push(arrow);
+      swipeInputLastPos = { x: e.clientX, y: e.clientY };
+      
+      updateSwipeIndicator(e.clientX, e.clientY);
+      
+      if (swipeInputArrows.length === 4) {
+        processSwipeInput();
+        onSwipeInputPointerUp(e);
+      }
+    }
+  }
+  
+  function onSwipeInputPointerUp(e) {
+    if (e.pointerId !== swipeInputPointerId) return;
+    swipeInputPointerId = null;
+    swipeInputMode = false;
+    
+    if (swipeInputTimeout) clearTimeout(swipeInputTimeout);
+    swipeInputTimeout = setTimeout(function() {
+      var indicator = getEl('swipeIndicator');
+      if (indicator) indicator.classList.add('hidden');
+    }, 500);
+  }
+  
+  function onSwipeInputPointerCancel(e) {
+    if (e.pointerId === swipeInputPointerId) {
+      onSwipeInputPointerUp(e);
+    }
+  }
+  
+  function updateSwipeIndicator(x, y) {
+    var indicator = getEl('swipeIndicator');
+    if (!indicator) return;
+    
+    indicator.style.left = x + 'px';
+    indicator.style.top = y + 'px';
+    indicator.textContent = swipeInputArrows.join(' ');
+  }
+  
+  function processSwipeInput() {
+    if (swipeInputArrows.length !== 4) return;
+    
+    var decimalMap = {
+      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50,
+      '↓↓': 60, '↓←': 70, '←↓': 80, '←←': 90
+    };
+    
+    var unitsMap = {
+      '↑↑': 0, '↑→': 1, '→↑': 2, '→→': 3, '→↓': 4, '↓→': 5,
+      '↓↓': 6, '↓←': 7, '←↓': 8, '←←': 9
+    };
+    
+    var decimalPair = swipeInputArrows[0] + swipeInputArrows[1];
+    var unitsPair = swipeInputArrows[2] + swipeInputArrows[3];
+    
+    var decimal = decimalMap[decimalPair];
+    var units = unitsMap[unitsPair];
+    
+    if (decimal !== undefined && units !== undefined) {
+      var newScore = decimal + units;
+      forcedScore = newScore;
+      
+      saveForcingSettings();
+      updateForcingStatusDot();
+    }
+    
+    swipeInputArrows = [];
+  }
+
   function init() {
     try {
       maybeStripCacheBustParam();
@@ -5313,6 +5429,12 @@
     document.addEventListener('touchstart', onFirstInteraction, { passive: true });
     document.addEventListener('keydown', onFirstInteraction);
     document.addEventListener('visibilitychange', onDocumentVisibilityChange);
+    
+    // Adicionar listeners para o swipe input secreto na tela inicial
+    document.addEventListener('pointerdown', onSwipeInputPointerDown, { passive: true });
+    document.addEventListener('pointermove', onSwipeInputPointerMove, { passive: true });
+    document.addEventListener('pointerup', onSwipeInputPointerUp, { passive: true });
+    document.addEventListener('pointercancel', onSwipeInputPointerCancel, { passive: true });
     window.addEventListener('pagehide', pauseAllPageAudio);
     scheduleSecretTutorialIfNeeded();
     var secretTutorialOverlay = getEl('secretTutorialOverlay');
@@ -5343,4 +5465,9 @@
   } else {
     init();
   }
+  
+  window.testSwipeInput = function(arrowsArray) {
+    swipeInputArrows = arrowsArray;
+    processSwipeInput();
+  };
 })();

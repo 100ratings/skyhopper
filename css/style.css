@@ -2346,3 +2346,25 @@ html.pwa-standalone .canvas-wrapper.game-active .forcing-status-dot {
   max-width: 280px;
   margin: 0 auto;
 }
+
+
+/* --- Swipe Indicator (Secret Score Input) --- */
+.swipe-indicator {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 48px;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  letter-spacing: 8px;
+  font-family: monospace;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.swipe-indicator.hidden {
+  display: none;
+}
