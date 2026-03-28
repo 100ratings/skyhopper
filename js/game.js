@@ -122,9 +122,11 @@
       leaderboardTopScores: 'Top scores',
       ordinals: ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th', '14th', '15th', '16th', '17th', '18th', '19th', '20th'],
       secretTutorialTitle: 'Secret modes – how it works',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Got it',
       secretClearCache: 'Hard reload',
       secretClearCacheHint: 'Reloads with a fresh URL so the browser fetches HTML, JS and CSS again.',
+      secretTutorialBody: 'Welcome! Here is how everything works, step by step.\n\n{{H:Logo}}\n\nAfter you pick a secret mode in this menu (not "None"), tap the Sky Hopper logo to turn that mode ON or OFF. When ON, that mode is armed; when OFF, you play a normal game.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Gear (settings)}}\n\nOne tap = normal settings (sound, LQ). Double tap quickly = this secret menu.\n\n{{H:Indicators}}\n\n• In play: a small colored dot at the top-left. The color matches the mode you selected.\n• Yellow and white = Forcing (yellow = not yet in the active forcing phase, white = active forcing run).\n• Green = Multiple force.\n• Purple = Leaderboard force.\n• In the menu or pause: a colored strip at the bottom; same color meaning.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — second chance and force tube}}\n\nDuring an active forcing run you can still hit a pipe. Before your target score, that is not instant game over — you get a second chance. After you reach the target, extra gravity applies around the special narrow force tube to finish the round.\n\n{{H:Mode: None (normal)}}\n\nNormal Flappy-style game. No secret rules. Choose "None" at the top or turn the logo off.\n\n{{H:Mode: Forcing}}\n\nOne target score and time limit. Set forced score, time (seconds), optional delay (warmup rounds before the active forcing phase). Use "After" to repeat or switch to another mode when done.\n\n{{H:Mode: Multiple force}}\n\nSeveral runs in a row. Each row has its own score and time. When the list ends, "After" decides what happens next.\n\n{{H:Mode: Leaderboard force}}\n\nThe game ends so it looks like you placed at a certain rank on the leaderboard. You set the rank to show.\n\n{{H:Leaderboard force — names around you (Rainman effect)}}\n\nBesides forcing your nickname to that rank, you can enter custom names for the three rows above you and three below (closest to you first). The scores shown next to those names are stepped from your final score so the order looks believable — a “Rainman” moment: it feels like those exact names sit beside you on the board. In this menu, fill “Names above” and “Names below”, turn the mode ON with the logo, play to game over, then open the leaderboard. • Idea: Saad Jennane.\n\n{{H:After (repeat / next)}}\n\nWhat happens after a forced round: turn off, repeat the same mode, or jump to another secret mode.\n\n{{H:API mode}}\n\nTurn on in this menu. Your device sends live score and state to the server. Each 5-digit API key has its own session — PeekSmith and other tools only see data for the key in the URL.\n\nExample URLs for PeekSmith or testing (CCvzDfV4n3pA.com and your 5-digit API key are filled in automatically):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON (full state):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Spectator link (no license on that phone)}}\n\nShare this so someone can play with your forcing config from the server, without activating a license on their device:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nAfter a forced game on spectator, that link has a cooldown (about 60 minutes of normal play) before forcing applies again.\n\n{{H:On the spectator\'s phone}}\n\nThey open the shared link — no license. The app reads the 5-digit key from the URL and enables API mode automatically. Forcing rules (mode, scores, times, etc.) are fetched from the server for that key; they follow the host\'s session, not anything saved on the spectator\'s phone.\n\nThe spectator cannot change secret modes: tapping the logo does nothing, and the gear only opens normal settings (sound, music, LQ). A double tap does not open the secret menu — the server config stays in charge.\n\nScore and state are still sent to the same API session so PeekSmith can follow along.\n\n{{H:Tips}}\n\nIf PeekSmith does not update, try plain-text URLs (peek / peeksmith) instead of raw JSON. On some hosts, exclude /api/ from caching in the hosting panel.'
     },
     nl: {
       menuCharacterSelection: 'Character selection',
@@ -245,9 +247,11 @@
       leaderboardTopScores: 'Top scores',
       ordinals: ['1e', '2e', '3e', '4e', '5e', '6e', '7e', '8e', '9e', '10e', '11e', '12e', '13e', '14e', '15e', '16e', '17e', '18e', '19e', '20e'],
       secretTutorialTitle: 'Secret menu – uitleg',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Begrepen',
       secretClearCache: 'Harde herladen',
       secretClearCacheHint: 'Herlaadt met een nieuwe URL; de browser haalt HTML, JS en CSS opnieuw op.',
+      secretTutorialBody: 'Welkom! Zo werkt het, met duidelijke kopjes.\n\n{{H:Logo}}\n\nAls je hierboven een secret modus hebt gekozen (niet "Geen"), zet je met een tik op het Sky Hopper-logo die modus aan of uit. Aan = die modus staat klaar; uit = je speelt gewoon normaal.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Tandwiel (instellingen)}}\n\nEén tik = gewone instellingen (geluid, LQ). Twee keer snel tikken (dubbelklik) = dit secret menu.\n\n{{H:Indicatoren}}\n\n• Tijdens het spel: linksboven een klein gekleurd bolletje; de kleur hoort bij je gekozen modus.\n• Geel en wit = Forcing (geel = nog niet in het actieve forcing-deel, wit = actieve forcing-run).\n• Groen = Multiple force.\n• Paars = Leaderboard force.\n• In het menu of bij pauze: onderaan een gekleurde balk; dezelfde kleur-betekenis.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — second chance en force-buis}}\n\nIn een actieve forcing-run kun je nog tegen een buis vliegen. Zolang je je doelscore niet hebt, krijg je second chance (geen meteen game over). Na je doelscore zet het spel bij de smalle force-buis extra zwaartekracht om de ronde af te sluiten.\n\n{{H:Modus: Geen (normaal)}}\n\nGewoon Flappy-spel. Kies "Geen" of zet het logo uit.\n\n{{H:Modus: Forcing}}\n\nEén doelscore en tijdslimiet. Stel score, tijd (sec) en eventuele delay in (oefen-rondjes vóór het actieve forcing-deel). "Na" = herhalen of naar een andere modus.\n\n{{H:Modus: Multiple force}}\n\nMeerdere rondjes achter elkaar, elk met eigen score en tijd. Als de lijst op is, bepaalt "Na" wat er gebeurt.\n\n{{H:Modus: Leaderboard force}}\n\nHet spel eindigt zo dat het lijkt alsof je op een bepaalde plek in het klassement staat. Je stelt die plek in.\n\n{{H:Leaderboard force — namen om je heen (Rainman-effect)}}\n\nJe kunt ook zelf drie namen invullen boven je en drie onder je (dichtstbij eerst). De bijbehorende scores worden automatisch afgestemd op jouw eindscore zodat de volgorde klopt — een sterk Rainman-effect: alsof die namen echt naast je in het klassement staan. Vul de velden in dit menu in, zet de modus aan via het logo, speel tot game over en open het leaderboard. • Idee: Saad Jennane.\n\n{{H:Na (herhalen / volgende modus)}}\n\nWat er gebeurt na een geforceerde ronde: uitzetten, dezelfde modus herhalen, of naar een andere secret modus springen.\n\n{{H:API-modus}}\n\nZet dit hier aan. Je telefoon stuurt live score en status naar de server. Elke 5-cijferige API-sleutel heeft een eigen sessie — PeekSmith en andere tools zien alleen de data van de sleutel in de URL.\n\nVoorbeeld-URL\'s voor PeekSmith of testen (CCvzDfV4n3pA.com en je 5-cijferige API-sleutel worden automatisch ingevuld):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON (volledige state):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Toeschouwer-link (geen licentie op die telefoon)}}\n\nDeel dit zodat iemand met jouw forcing-config van de server kan spelen zonder licentie te activeren:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nNa een geforceerd potje als toeschouwer volgt een cooldown (ongeveer 60 minuten normaal spelen) voordat forcing weer mee doet.\n\n{{H:Op de telefoon van de toeschouwer}}\n\nDie opent de gedeelde link — geen licentie nodig. De app leest de 5-cijferige sleutel uit de URL en zet API-modus automatisch aan. De forcing-regels (modus, scores, tijden, enz.) komen van de server voor die sleutel: de sessie van de host, niet wat er op de telefoon van de toeschouwer staat opgeslagen.\n\nDe toeschouwer kan geen secret modi aanpassen: tikken op het logo doet niets, en het tandwiel opent alleen gewone instellingen (geluid, muziek, LQ). Dubbel tikken opent geen secret menu — de serverconfig bepaalt.\n\nLive score en status gaan nog steeds naar dezelfde API-sessie, zodat PeekSmith kan meekijken.\n\n{{H:Tips}}\n\nWerkt PeekSmith niet goed? Probeer platte-tekst-URL\'s (peek / peeksmith) i.p.v. ruwe JSON. Bij sommige hosts moet je /api/ uitsluiten van cache in het hostingpaneel.'
     },
     de: {
       menuCharacterSelection: 'Charakterauswahl',
@@ -368,9 +372,11 @@
       leaderboardTopScores: 'Top-Scores',
       ordinals: ['1.', '2.', '3.', '4.', '5.', '6.', '7.', '8.', '9.', '10.', '11.', '12.', '13.', '14.', '15.', '16.', '17.', '18.', '19.', '20.'],
       secretTutorialTitle: 'Geheimmodi – Erklärung',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Verstanden',
       secretClearCache: 'Hard reload',
       secretClearCacheHint: 'Neu laden mit neuer URL; Browser holt HTML, JS und CSS erneut.',
+      secretTutorialBody: 'Willkommen! So funktioniert es — mit Überschriften.\n\n{{H:Logo}}\n\nWenn du einen Geheimmodus wählst (nicht „Keiner“), schaltest du ihn per Tipp auf das Logo ein oder aus. An = Modus bereit; aus = normales Spiel.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Zahnrad (Einstellungen)}}\n\nEin Tipp = normale Einstellungen. Doppeltipp = dieses Geheimmenü.\n\n{{H:Anzeigen}}\n\n• Im Spiel: oben links ein farbiger Punkt = gewählter Modus.\n• Gelb und Weiß = Forcing (gelb = noch nicht aktiv, weiß = aktive Forcing-Runde).\n• Grün = Multiple force.\n• Lila = Leaderboard force.\n• Im Menü / Pause: unten ein farbiger Streifen; gleiche Farb-Bedeutung.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — zweite Chance und Force-Röhre}}\n\nIn der aktiven Runde kannst du noch eine Röhre treffen. Vor der Zielpunktzahl: zweite Chance statt sofort Game Over. Danach: extra Schwerkraft an der schmalen Force-Röhre.\n\n{{H:Modus: Keiner (normal)}}\n\nNormales Spiel. Wähle „Keiner“ oder schalte das Logo aus.\n\n{{H:Modus: Forcing}}\n\nEine Zielpunktzahl und Zeitlimit. Score, Zeit, optional Delay. „Danach“ = wiederholen oder Modus wechseln.\n\n{{H:Modus: Multiple force}}\n\nMehrere Runden hintereinander, jede mit eigenem Score und Zeit. „Danach“ regelt das Ende der Liste.\n\n{{H:Modus: Leaderboard force}}\n\nDas Spiel endet so, als hättest du einen bestimmten Rang in der Bestenliste. Du stellst den Rang ein.\n\n{{H:Leaderboard force — Namen um dich (Rainman-Effekt)}}\n\nZusätzlich kannst du drei Namen über dir und drei unter dir eintragen (nächste Zeile zuerst). Die angezeigten Punkte werden an deine Endpunktzahl angepasst, damit die Reihenfolge stimmig wirkt — ein „Rainman“-Effekt: als stünden genau diese Namen um dich in der Liste. Trage die Namen hier ein, schalte den Modus per Logo ein, spiele bis Game Over und öffne die Bestenliste. • Idee: Saad Jennane.\n\n{{H:Danach (Wiederholen / Nächster Modus)}}\n\nWas nach einer erzwungenen Runde passiert.\n\n{{H:API-Modus}}\n\nHier einschalten. Dein Gerät sendet Live-Daten. Jeder 5-stellige API-Schlüssel hat eine eigene Session — PeekSmith sieht nur die Daten für den Schlüssel in der URL.\n\nBeispiel-URLs (CCvzDfV4n3pA.com und dein 5-stelliger API-Schlüssel werden automatisch eingetragen):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Zuschauer-Link (keine Lizenz auf dem Handy)}}\n\nZum Teilen — andere spielen mit deiner Forcing-Config vom Server, ohne Lizenz:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nNach einem Forcing-Spiel als Zuschauer: etwa 60 Minuten Cooldown mit normalem Spiel.\n\n{{H:Auf dem Handy des Zuschauers}}\n\nEr öffnet den geteilten Link — keine Lizenz nötig. Die App liest den 5-stelligen Schlüssel aus der URL und schaltet den API-Modus automatisch ein. Die Forcing-Regeln (Modus, Punkte, Zeiten usw.) kommen vom Server für diesen Schlüssel — die Session des Hosts, nicht der lokale Speicher des Zuschauers.\n\nDer Zuschauer kann keine Geheimmodi ändern: Logo-Tipp tut nichts, und das Zahnrad öffnet nur normale Einstellungen (Ton, Musik, LQ). Doppeltipp öffnet kein Geheimmenü — die Server-Konfiguration gilt.\n\nPunktzahl und Status gehen weiterhin an dieselbe API-Session, damit PeekSmith mitlesen kann.\n\n{{H:Tipps}}\n\nPeekSmith: lieber Plain-Text-URLs (peek/peeksmith) als rohes JSON. Bei manchen Hosts /api/ vom Cache ausschließen.'
     },
     fr: {
       menuCharacterSelection: 'Sélection du personnage',
@@ -491,9 +497,11 @@
       leaderboardTopScores: 'Meilleurs scores',
       ordinals: ['1ère', '2e', '3e', '4e', '5e', '6e', '7e', '8e', '9e', '10e', '11e', '12e', '13e', '14e', '15e', '16e', '17e', '18e', '19e', '20e'],
       secretTutorialTitle: 'Modes secrets – explication',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Compris',
       secretClearCache: 'Rechargement forcé',
       secretClearCacheHint: 'Recharge avec une nouvelle URL pour retélécharger HTML, JS et CSS.',
+      secretTutorialBody: 'Bienvenue ! Voici le guide avec des titres.\n\n{{H:Logo}}\n\nAprès avoir choisi un mode secret (pas « Aucun »), tape sur le logo pour activer ou désactiver. Activé = le mode est prêt ; désactivé = jeu normal.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Roue dentée (réglages)}}\n\nUn tap = réglages normaux. Double tap = ce menu secret.\n\n{{H:Indicateurs}}\n\n• En jeu : en haut à gauche, un point coloré = mode choisi.\n• Jaune et blanc = Forcing (jaune = pas encore actif, blanc = manche Forcing active).\n• Vert = Multiple force.\n• Violet = Leaderboard force.\n• Menu / pause : bandeau coloré en bas ; même sens des couleurs.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — seconde chance et tuyau de force}}\n\nEn manche active tu peux encore toucher un tuyau. Avant le score cible : seconde chance au lieu du game over direct. Après le score cible : gravité renforcée au tuyau de force étroit.\n\n{{H:Mode : Aucun (normal)}}\n\nJeu normal. Choisis « Aucun » ou désactive le logo.\n\n{{H:Mode : Forcing}}\n\nUn score cible et une limite de temps. Score, temps, délai optionnel. « Après » = répéter ou changer de mode.\n\n{{H:Mode : Multiple force}}\n\nPlusieurs tours d\'affilée, chacun avec score et temps. « Après » gère la fin de la liste.\n\n{{H:Mode : Leaderboard force}}\n\nLe jeu se termine comme si tu avais un certain rang. Tu règles ce rang.\n\n{{H:Leaderboard force — noms autour de toi (effet Rainman)}}\n\nEn plus du rang, tu peux saisir trois noms au-dessus de toi et trois en dessous (le plus proche en premier). Les scores affichés sont calés sur ton score final pour que le classement paraisse cohérent — un effet « Rainman » : on croit voir ces personnes juste autour de toi. Remplis les champs dans ce menu, active le mode avec le logo, joue jusqu\'au game over puis ouvre le classement. • Idée : Saad Jennane.\n\n{{H:Après (répéter / mode suivant)}}\n\nCe qui se passe après une manche forcée.\n\n{{H:Mode API}}\n\nActive-le ici. Ton appareil envoie l\'état en direct. Chaque clé API à 5 chiffres a sa propre session — PeekSmith ne voit que la clé dans l\'URL.\n\nExemples d\'URL (CCvzDfV4n3pA.com et ta clé API à 5 chiffres sont remplis automatiquement) :\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON :\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Lien spectateur (pas de licence sur ce téléphone)}}\n\nÀ partager : jouer avec ta config de forcing depuis le serveur, sans activer de licence :\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nAprès une partie forcée en spectateur : environ 60 minutes de cooldown en jeu normal.\n\n{{H:Sur le téléphone du spectateur}}\n\nIl ouvre le lien partagé — pas de licence. L\'app lit la clé à 5 chiffres dans l\'URL et active le mode API automatiquement. Les règles de forcing (mode, scores, temps, etc.) viennent du serveur pour cette clé — la session de l\'hôte, pas ce qui est stocké sur le téléphone du spectateur.\n\nLe spectateur ne peut pas modifier les modes secrets : le logo ne fait rien, et la roue dentée n\'ouvre que les réglages normaux (son, musique, LQ). Un double tap n\'ouvre pas ce menu secret — la config serveur commande.\n\nScore et état partent toujours vers la même session API pour que PeekSmith suive.\n\n{{H:Conseils}}\n\nPeekSmith : préfère les URL texte brut (peek/peeksmith) au JSON brut. Sur certains hébergeurs, exclure /api/ du cache.'
     },
     pt: {
       menuCharacterSelection: 'Seleção de personagem',
@@ -614,9 +622,11 @@
       leaderboardTopScores: 'Melhores pontuações',
       ordinals: ['1º', '2º', '3º', '4º', '5º', '6º', '7º', '8º', '9º', '10º', '11º', '12º', '13º', '14º', '15º', '16º', '17º', '18º', '19º', '20º'],
       secretTutorialTitle: 'Modos secretos – como funciona',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Entendi',
       secretClearCache: 'Recarga forçada',
       secretClearCacheHint: 'Recarrega com uma URL nova para que o navegador busque HTML, JS e CSS novamente.',
+      secretTutorialBody: 'Bem-vindo! Aqui está como tudo funciona, passo a passo.\n\n{{H:Logo}}\n\nDepois de escolher um modo secreto neste menu (não "Nenhum"), toque no logo do Sky Hopper para ativar ou desativar esse modo. Quando ativado, o modo está armado; quando desativado, você joga um jogo normal.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Engrenagem (configurações)}}\n\nUm toque = configurações normais (som, LQ). Duplo toque rápido = este menu secreto.\n\n{{H:Indicadores}}\n\n• Em jogo: um pequeno ponto colorido no canto superior esquerdo. A cor corresponde ao modo que você selecionou.\n• Amarelo e branco = Forcing (amarelo = ainda não na fase de forcing ativa, branco = rodada de forcing ativa).\n• Verde = Multiple force.\n• Roxo = Leaderboard force.\n• No menu ou pausa: uma faixa colorida na parte inferior; mesmo significado de cor.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — segunda chance e tubo de força}}\n\nDurante uma rodada de forcing ativa, você ainda pode bater em um cano. Antes de sua pontuação alvo, isso não é game over instantâneo — você recebe uma segunda chance. Depois de atingir o alvo, gravidade extra se aplica ao redor do tubo de força estreito especial para terminar a rodada.\n\n{{H:Modo: Nenhum (normal)}}\n\nJogo normal estilo Flappy. Sem regras secretas. Escolha "Nenhum" no topo ou desative o logo.\n\n{{H:Modo: Forcing}}\n\nUma pontuação alvo e limite de tempo. Defina pontuação forçada, tempo (segundos), atraso opcional (rodadas de aquecimento antes da fase de forcing ativa). Use "Depois" para repetir ou mudar para outro modo quando terminar.\n\n{{H:Modo: Multiple force}}\n\nVárias rodadas seguidas. Cada linha tem sua própria pontuação e tempo. Quando a lista termina, "Depois" decide o que acontece a seguir.\n\n{{H:Modo: Leaderboard force}}\n\nO jogo termina para parecer que você se colocou em um certo rank no ranking. Você define o rank a mostrar.\n\n{{H:Leaderboard force — nomes ao seu redor (efeito Rainman)}}\n\nAlém de forçar seu apelido para esse rank, você pode inserir nomes personalizados para as três linhas acima e três abaixo de você (mais próximas primeiro). As pontuações mostradas ao lado desses nomes são escalonadas a partir de sua pontuação final para que a ordem pareça credível — um momento "Rainman": parece que essas pessoas exatas estão ao seu lado no ranking. Neste menu, preencha "Nomes acima" e "Nomes abaixo", ative o modo com o logo, jogue até o game over e abra o ranking. • Ideia: Saad Jennane.\n\n{{H:Depois (repetir / próximo)}}\n\nO que acontece após uma rodada forçada: desligar, repetir o mesmo modo ou pular para outro modo secreto.\n\n{{H:Modo API}}\n\nAtive neste menu. Seu dispositivo envia pontuação e estado ao vivo para o servidor. Cada chave API de 5 dígitos tem sua própria sessão — PeekSmith e outras ferramentas só veem dados da chave na URL.\n\nURLs de exemplo para PeekSmith ou teste (CCvzDfV4n3pA.com e sua chave API de 5 dígitos são preenchidas automaticamente):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON (estado completo):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Link de espectador (sem licença naquele telefone)}}\n\nCompartilhe isso para que alguém possa jogar com sua configuração de forcing do servidor, sem ativar uma licença no dispositivo deles:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nDepois de um jogo forçado como espectador, esse link tem um cooldown (cerca de 60 minutos de jogo normal) antes de o forcing se aplicar novamente.\n\n{{H:No telefone do espectador}}\n\nEles abrem o link compartilhado — sem licença. O app lê a chave de 5 dígitos da URL e ativa o modo API automaticamente. As regras de forcing (modo, pontuações, tempos, etc.) são buscadas do servidor para essa chave; eles seguem a sessão do host, não nada salvo no telefone do espectador.\n\nO espectador não pode mudar modos secretos: tocar no logo não faz nada, e a engrenagem só abre configurações normais (som, música, LQ). Um duplo toque não abre o menu secreto — a configuração do servidor fica no comando.\n\nPontuação e estado ainda são enviados para a mesma sessão API para que PeekSmith possa acompanhar.\n\n{{H:Dicas}}\n\nSe PeekSmith não atualizar, tente URLs em texto simples (peek / peeksmith) em vez de JSON bruto. Em alguns hosts, exclua /api/ do cache no painel de hospedagem.'
     },
     es: {
       menuCharacterSelection: 'Selección de personaje',
@@ -737,9 +747,11 @@
       leaderboardTopScores: 'Mejores puntuaciones',
       ordinals: ['1.ª', '2.ª', '3.ª', '4.ª', '5.ª', '6.ª', '7.ª', '8.ª', '9.ª', '10.ª', '11.ª', '12.ª', '13.ª', '14.ª', '15.ª', '16.ª', '17.ª', '18.ª', '19.ª', '20.ª'],
       secretTutorialTitle: 'Modos secretos – guía',
+      secretTutorialBtn: 'TUTORIAL',
       secretTutorialClose: 'Entendido',
       secretClearCache: 'Recarga forzada',
       secretClearCacheHint: 'Recarga con URL nueva para volver a obtener HTML, JS y CSS.',
+      secretTutorialBody: '¡Bienvenido! Guía con apartados.\n\n{{H:Logo}}\n\nSi eliges un modo secreto (no « Ninguno »), toca el logo para activarlo o desactivarlo. Activado = listo; desactivado = juego normal.\n\n{{IMG:tutorial-logo-gear.png}}\n\n{{H:Engranaje (ajustes)}}\n\nUn toque = ajustes normales. Doble toque = este menú secreto.\n\n{{H:Indicadores}}\n\n• En juego: arriba a la izquierda, punto de color = modo elegido.\n• Amarillo y blanco = Forcing (amarillo = aún no activo, blanco = ronda Forcing activa).\n• Verde = Multiple force.\n• Morado = Leaderboard force.\n• Menú / pausa: franja inferior; mismo significado del color.\n\n{{IMG:tutorial-mode-indicators.png}}\n\n{{H:Forcing — segunda oportunidad y tubo de fuerza}}\n\nEn ronda activa aún puedes chocar. Antes del objetivo: segunda oportunidad. Después: gravedad extra en el tubo estrecho.\n\n{{H:Modo: Ninguno (normal)}}\n\nJuego normal. Elige « Ninguno » o desactiva el logo.\n\n{{H:Modo: Forcing}}\n\nUna puntuación objetivo y límite de tiempo. Puntuación, tiempo, retraso opcional. « Después » = repetir o cambiar de modo.\n\n{{H:Modo: Multiple force}}\n\nVarias rondas seguidas, cada una con puntuación y tiempo. « Después » al terminar la lista.\n\n{{H:Modo: Leaderboard force}}\n\nEl juego termina como si tuvieras un puesto en el ranking. Tú eliges el puesto.\n\n{{H:Leaderboard force — nombres a tu alrededor (efecto Rainman)}}\n\nAdemás puedes escribir tres nombres por encima y tres por debajo de tu fila (el más cercano primero). Las puntuaciones se ajustan a tu resultado final para que el orden sea creíble — un efecto « Rainman »: parece que esas personas están justo junto a ti en la tabla. Rellena los campos en este menú, activa el modo con el logo, juega hasta el game over y abre el ranking. • Idea: Saad Jennane.\n\n{{H:Después (repetir / siguiente modo)}}\n\nQué pasa tras una ronda forzada.\n\n{{H:Modo API}}\n\nActívalo aquí. Tu dispositivo envía estado en vivo. Cada clave API de 5 dígitos tiene su propia sesión — PeekSmith solo ve la clave de la URL.\n\nEjemplos de URL (CCvzDfV4n3pA.com y tu clave API de 5 dígitos se rellenan solas):\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/peek?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/line?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/peeksmith/score?apiKey={{TUTORIAL_API_KEY}}}}\n\nJSON:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/api/session/state?apiKey={{TUTORIAL_API_KEY}}}}\n\n{{H:Enlace espectador (sin licencia en ese móvil)}}\n\nPara compartir: juegan con tu config de forcing desde el servidor, sin activar licencia:\n\n{{CODE:{{TUTORIAL_API_ORIGIN}}/?k={{TUTORIAL_API_KEY}}}}\n\nTras una partida forzada como espectador: unos 60 minutos de cooldown en modo normal.\n\n{{H:En el móvil del espectador}}\n\nAbre el enlace compartido — sin licencia. La app lee la clave de 5 dígitos en la URL y activa el modo API automáticamente. Las reglas de forcing (modo, puntuaciones, tiempos, etc.) las trae el servidor para esa clave — la sesión del presentador, no lo guardado en el móvil del espectador.\n\nEl espectador no puede cambiar los modos secretos: el logo no hace nada, y el engranaje solo abre ajustes normales (sonido, música, LQ). El doble toque no abre el menú secreto — manda la config del servidor.\n\nLa puntuación y el estado siguen yendo a la misma sesión API para que PeekSmith pueda seguir.\n\n{{H:Consejos}}\n\nPeekSmith: mejor URL de texto plano (peek/peeksmith) que JSON crudo. En algunos hosts, excluye /api/ de la caché.'
     }
   };
 
@@ -905,7 +917,7 @@
       }
       renderLeaderboardForceNameLists();
       refreshPurchaseGraceTexts();
-
+      fillSecretTutorialBody();
       updateLicenseUI();
     } catch (e) {}
   }
@@ -917,9 +929,96 @@
     return d.innerHTML;
   }
 
+  function fillSecretTutorialBody() {
+    var bodyEl = getEl('secretTutorialBody');
+    var titleEl = getEl('secretTutorialHeading');
+    var closeBtn = getEl('secretTutorialCloseBtn');
+    var tutBtn = getEl('secretTutorialBtn');
+    if (titleEl) titleEl.textContent = t('secretTutorialTitle');
+    if (closeBtn) closeBtn.textContent = t('secretTutorialClose');
+    if (tutBtn) tutBtn.textContent = t('secretTutorialBtn');
+    if (!bodyEl) return;
+    var raw = t('secretTutorialBody');
+    var tutorialOrigin = 'https://CCvzDfV4n3pA.com';
+    var tutorialKey = '';
+    try {
+      if (typeof apiKey !== 'undefined' && apiKey) tutorialKey = String(apiKey).trim();
+      if (!tutorialKey) tutorialKey = (localStorage.getItem('skyHopperApiKey') || '').trim();
+    } catch (e) {}
+    if (!/^[0-9]{5}$/.test(tutorialKey)) tutorialKey = '-----';
+    raw = String(raw).split('{{TUTORIAL_API_ORIGIN}}').join(tutorialOrigin);
+    raw = raw.split('{{TUTORIAL_API_KEY}}').join(tutorialKey);
+    var parts = raw.split('\n\n');
+    var html = '';
+    for (var i = 0; i < parts.length; i++) {
+      var p = parts[i].trim();
+      if (!p) continue;
+      var imgMatch = p.match(/^\{\{IMG:([^}]+)\}\}$/);
+      if (imgMatch) {
+        var fname = imgMatch[1].trim();
+        if (!/^[\w.-]+$/.test(fname)) continue;
+        html += '<figure class="secret-tutorial-figure"><img src="images/' + escapeHtml(fname) + '" alt="" class="secret-tutorial-figure-img" loading="lazy" decoding="async"></figure>';
+        continue;
+      }
+      var hMatch = p.match(/^\{\{H:(.+)\}\}$/);
+      if (hMatch) {
+        html += '<h3 class="secret-tutorial-hed">' + escapeHtml(hMatch[1].trim()) + '</h3>';
+        continue;
+      }
+      var codeMatch = p.match(/^\{\{CODE:(.+)\}\}$/);
+      if (codeMatch) {
+        html += '<p class="secret-tutorial-code"><code>' + escapeHtml(codeMatch[1].trim()) + '</code></p>';
+        continue;
+      }
+      html += '<p>' + escapeHtml(p).replace(/\n/g, '<br>') + '</p>';
+    }
+    bodyEl.innerHTML = html;
+  }
 
+  function showSecretTutorial() {
+    fillSecretTutorialBody();
+    var ov = getEl('secretTutorialOverlay');
+    if (ov) {
+      ov.classList.remove('hidden');
+      ov.setAttribute('aria-hidden', 'false');
+    }
+  }
 
+  function closeSecretTutorial() {
+    var ov = getEl('secretTutorialOverlay');
+    if (ov) {
+      ov.classList.add('hidden');
+      ov.setAttribute('aria-hidden', 'true');
+    }
+    try {
+      localStorage.setItem('skyHopperSecretTutorialSeen', '1');
+    } catch (e) {}
+  }
 
+  function maybeShowSecretTutorialAfterActivation() {
+    if (tutorialInitTimer) {
+      clearTimeout(tutorialInitTimer);
+      tutorialInitTimer = null;
+    }
+    try {
+      if (localStorage.getItem('skyHopperSecretTutorialSeen') !== '1') showSecretTutorial();
+    } catch (e) {}
+  }
+
+  function scheduleSecretTutorialIfNeeded() {
+    try {
+      if (spectatorMode) return;
+      if (localStorage.getItem('skyHopperSecretTutorialSeen') === '1') return;
+      if (!licenseValid) return;
+      if (tutorialInitTimer) clearTimeout(tutorialInitTimer);
+      tutorialInitTimer = setTimeout(function () {
+        tutorialInitTimer = null;
+        if (localStorage.getItem('skyHopperSecretTutorialSeen') === '1') return;
+        if (!licenseValid) return;
+        showSecretTutorial();
+      }, 800);
+    } catch (e) {}
+  }
 
   var FLAG_EMOJI = { en: '🇬🇧', nl: '🇳🇱', de: '🇩🇪', fr: '🇫🇷', es: '🇪🇸', pt: '🇧🇷' };
 
@@ -2287,7 +2386,8 @@
           try { localStorage.setItem('skyHopperApiKey', apiKey); } catch (e) {}
           var el = getEl('apiKeyDisplay');
           if (el) el.textContent = apiKey;
-
+          var tutOv = getEl('secretTutorialOverlay');
+          if (tutOv && !tutOv.classList.contains('hidden')) fillSecretTutorialBody();
           schedulePushSessionConfig();
           updateSpectatorModeSection();
         }
@@ -2705,6 +2805,7 @@
       var regSection0 = getEl('registerKeySection');
       if (keyRow0) keyRow0.classList.add('hidden');
       if (regSection0) regSection0.classList.add('hidden');
+      var tutBtn0 = getEl('secretTutorialBtn');
       if (tutBtn0) tutBtn0.hidden = true;
       syncResetDeviceSectionVisibility();
       updateSpectatorModeSection();
@@ -2724,6 +2825,7 @@
     if (keyRow) keyRow.classList.toggle('hidden', !licenseValid || !storedKey);
     if (keyDisplay && storedKey) keyDisplay.textContent = storedKey;
     if (regSection) regSection.classList.toggle('hidden', !licenseValid || licenseRegistered);
+    var tutBtn = getEl('secretTutorialBtn');
     if (tutBtn) tutBtn.hidden = !licenseValid;
     var buyWrap = getEl('licenseBuyWrap');
     if (buyWrap) {
@@ -4707,7 +4809,7 @@
       if (statusEl) statusEl.classList.remove('not-activated');
       updateLicenseUI();
       updateForcingStatusDot();
-
+      maybeShowSecretTutorialAfterActivation();
       return;
     }
     btn.disabled = true;
@@ -4739,7 +4841,7 @@
           updateLicenseUI();
           checkLicenseRegistrationStatus();
           updateForcingStatusDot();
-    
+          maybeShowSecretTutorialAfterActivation();
           schedulePushSessionConfig();
         } else {
           if (d.reason === 'grace_expired') {
@@ -5110,7 +5212,8 @@
     if (swipeInputArrows.length !== 2) return;
     
     var decimalMap = {
-      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50
+      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50,
+      '↓↓': 60, '↓←': 70, '←↓': 80, '←←': 90
     };
     
     var decimalPair = swipeInputArrows[0] + swipeInputArrows[1];
@@ -5132,7 +5235,8 @@
     };
     
     var decimalMap = {
-      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50
+      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50,
+      '↓↓': 60, '↓←': 70, '←↓': 80, '←←': 90
     };
     
     var decimalPair = swipeInputArrows[0] + swipeInputArrows[1];
@@ -5317,9 +5421,19 @@
     document.addEventListener('pointerup', onSwipeInputPointerUp, { passive: true });
     document.addEventListener('pointercancel', onSwipeInputPointerCancel, { passive: true });
     window.addEventListener('pagehide', pauseAllPageAudio);
-
+    scheduleSecretTutorialIfNeeded();
+    var secretTutorialOverlay = getEl('secretTutorialOverlay');
+    if (secretTutorialOverlay) {
+      secretTutorialOverlay.addEventListener('click', function (e) {
+        if (e.target === secretTutorialOverlay) closeSecretTutorial();
       });
     }
+    var secretTutorialBtn = getEl('secretTutorialBtn');
+    if (secretTutorialBtn) secretTutorialBtn.addEventListener('click', function () {
+      showSecretTutorial();
+    });
+    var secretTutorialCloseBtn = getEl('secretTutorialCloseBtn');
+    if (secretTutorialCloseBtn) secretTutorialCloseBtn.addEventListener('click', closeSecretTutorial);
     var purchaseGraceCloseBtn = getEl('purchaseGraceCloseBtn');
     if (purchaseGraceCloseBtn) purchaseGraceCloseBtn.addEventListener('click', closePurchaseGraceModal);
     var purchaseGraceOverlay = getEl('purchaseGraceOverlay');
