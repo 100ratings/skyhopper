@@ -5166,7 +5166,7 @@
     swipeInputPointerId = e.pointerId;
     swipeInputStartPos = { x: e.clientX, y: e.clientY };
     swipeInputLastPos = { x: e.clientX, y: e.clientY };
-    swipeInputArrows = [];
+    // Nao resetamos swipeInputArrows aqui para permitir acumular os 4 swipes de toques diferentes
   }
   
   function onSwipeInputPointerMove(e) {
@@ -5188,10 +5188,8 @@
       swipeInputArrows.push(arrow);
       swipeInputLastPos = { x: e.clientX, y: e.clientY };
       
-      if (swipeInputArrows.length === 2) {
-        processSwipeDecimal();
-      } else if (swipeInputArrows.length === 4) {
-        processSwipeUnits();
+      if (swipeInputArrows.length === 4) {
+        processSwipeFourInputs();
         swipeInputArrows = [];
       }
     }
@@ -5208,50 +5206,30 @@
     }
   }
   
-  function processSwipeDecimal() {
-    if (swipeInputArrows.length !== 2) return;
-    
-    var decimalMap = {
-      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50,
-      '↓↓': 60, '↓←': 70, '←↓': 80, '←←': 90
-    };
-    
-    var decimalPair = swipeInputArrows[0] + swipeInputArrows[1];
-    var decimal = decimalMap[decimalPair];
-    
-    if (decimal !== undefined) {
-      forcedScore = decimal;
-      saveForcingSettings();
-      updateForcingStatusDot();
-    }
-  }
-  
-  function processSwipeUnits() {
+  function processSwipeFourInputs() {
     if (swipeInputArrows.length !== 4) return;
     
-    var unitsMap = {
+    var digitMap = {
       '↑↑': 0, '↑→': 1, '→↑': 2, '→→': 3, '→↓': 4, '↓→': 5,
       '↓↓': 6, '↓←': 7, '←↓': 8, '←←': 9
     };
     
-    var decimalMap = {
-      '↑↑': 0, '↑→': 10, '→↑': 20, '→→': 30, '→↓': 40, '↓→': 50,
-      '↓↓': 60, '↓←': 70, '←↓': 80, '←←': 90
-    };
+    var firstDigitPair = swipeInputArrows[0] + swipeInputArrows[1];
+    var secondDigitPair = swipeInputArrows[2] + swipeInputArrows[3];
     
-    var decimalPair = swipeInputArrows[0] + swipeInputArrows[1];
-    var unitsPair = swipeInputArrows[2] + swipeInputArrows[3];
+    var firstDigit = digitMap[firstDigitPair];
+    var secondDigit = digitMap[secondDigitPair];
     
-    var decimal = decimalMap[decimalPair];
-    var units = unitsMap[unitsPair];
-    
-    if (decimal !== undefined && units !== undefined) {
-      forcedScore = decimal + units;
+    if (firstDigit !== undefined && secondDigit !== undefined) {
+      forcedScore = (firstDigit * 10) + secondDigit;
+      gameMode = 'forcing';
+      var scoreInput = getEl('forcedScoreInput');
+      if (scoreInput) scoreInput.value = forcedScore;
+      var modeSelect = getEl('gameModeSelect');
+      if (modeSelect) modeSelect.value = 'forcing';
       saveForcingSettings();
       updateForcingStatusDot();
     }
-    
-    swipeInputArrows = [];
   }
 
   function init() {
@@ -5453,10 +5431,9 @@
   
   window.testSwipeInput = function(arrowsArray) {
     swipeInputArrows = arrowsArray;
-    if (arrowsArray.length === 2) {
-      processSwipeDecimal();
-    } else if (arrowsArray.length === 4) {
-      processSwipeUnits();
+    if (arrowsArray.length === 4) {
+      processSwipeFourInputs();
+      swipeInputArrows = [];
     }
   };
 })();
