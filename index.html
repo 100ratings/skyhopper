@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Sky Hopper</title>
+  <meta name="theme-color" content="#141418">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sky Hopper">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" href="favicon.ico" sizes="32x32" type="image/png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" sizes="180x180">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        if (window.matchMedia('(display-mode: standalone)').matches || window.matchMedia('(display-mode: fullscreen)').matches) {
+          document.documentElement.classList.add('pwa-standalone');
+        }
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <main class="game-container">
+    <div class="canvas-wrapper">
+      <span id="forcingStatusDot" class="forcing-status-dot hidden" aria-label="Secret mode active"><span id="forcingStatusValue" class="forcing-status-value"></span></span>
+      <canvas id="gameCanvas" tabindex="0"></canvas>
+      <div class="hud">
+        <span id="scoreLabel" class="score-label">Score:</span>
+        <span id="scoreDisplay" class="score-value">0</span>
+      </div>
+      <button type="button" id="pauseBtn" class="pause-btn hidden" aria-label="Pause"><span class="pause-icon"><span class="pause-bar"></span><span class="pause-bar"></span></span></button>
+      <div id="beginnerMenu" class="beginner-menu">
+        <div class="beginner-menu-content">
+          <img src="images/sky-hopper-logo.png" alt="Sky Hopper" class="beginner-menu-logo">
+          <h2 id="menuCharacterSelection" class="beginner-menu-title">Character selection</h2>
+          <div class="character-preview-row">
+            <button type="button" id="characterArrowLeft" class="arrow-btn character-arrow" aria-label="Previous character">‹</button>
+            <div id="characterPreviewWrap" class="character-preview" aria-label="Swipe to change character">
+              <div class="character-preview-inner">
+                <canvas id="birdPreviewCanvas" class="bird-preview-canvas" width="88" height="88"></canvas>
+              </div>
+            </div>
+            <button type="button" id="characterArrowRight" class="arrow-btn character-arrow" aria-label="Next character">›</button>
+          </div>
+          <div class="menu-nickname-and-play">
+            <label class="player-name-row" for="playerNameInput">
+              <span id="playerNameLabel" class="beginner-menu-title player-name-title">NICKNAME</span>
+              <input type="text" id="playerNameInput" class="player-name-input" maxlength="24" autocomplete="nickname" placeholder="For the leaderboard">
+            </label>
+            <button type="button" id="playBtn" class="play-btn" data-i18n="menuPlay">Play</button>
+          </div>
+          <div class="menu-bottom-row">
+            <button type="button" id="langTriggerBtn" class="lang-trigger-btn" aria-label="Language" title="Language"><span id="langTriggerEmoji">🇬🇧</span> <span id="langTriggerBtnLabel" class="menu-btn-label">Language</span></button>
+            <button type="button" id="settingsBtn" class="settings-btn" aria-label="Settings">⚙ <span id="settingsBtnLabel" class="menu-btn-label">Settings</span></button>
+          </div>
+        </div>
+      </div>
+      <div id="purchaseGraceOverlay" class="purchase-grace-overlay hidden" aria-hidden="true">
+        <div class="purchase-grace-panel" role="dialog" aria-labelledby="purchaseGraceTitle" aria-modal="true">
+          <h3 id="purchaseGraceTitle" class="purchase-grace-title">Trial period ended</h3>
+          <p id="purchaseGraceBody" class="purchase-grace-body"></p>
+          <a id="purchaseGraceLink" class="purchase-grace-link" href="https://www.premiummagic.nl/en/product/high-score/?bm=magic" target="_blank" rel="noopener noreferrer">Buy now</a>
+          <button type="button" id="purchaseGraceCloseBtn" class="purchase-grace-close">Close</button>
+        </div>
+      </div>
+      <div id="pairingFullLicenseOverlay" class="purchase-grace-overlay hidden" aria-hidden="true">
+        <div class="purchase-grace-panel" role="dialog" aria-labelledby="pairingFullLicenseTitle" aria-modal="true">
+          <h3 id="pairingFullLicenseTitle" class="purchase-grace-title">Full license required</h3>
+          <p id="pairingFullLicenseBody" class="purchase-grace-body"></p>
+          <a id="pairingFullLicenseLink" class="purchase-grace-link" href="https://www.premiummagic.nl/en/product/high-score/?bm=magic" target="_blank" rel="noopener noreferrer">Buy now</a>
+          <button type="button" id="pairingFullLicenseCloseBtn" class="purchase-grace-close">Close</button>
+        </div>
+      </div>
+      <div id="languagePopupOverlay" class="language-popup-overlay hidden" aria-hidden="true">
+        <div class="language-popup" role="dialog" aria-labelledby="languagePopupTitle" aria-modal="true">
+          <h3 id="languagePopupTitle" class="language-popup-title">Language</h3>
+          <div class="language-popup-options">
+            <button type="button" class="lang-option lang-option-en" data-lang="en">🇬🇧 English</button>
+            <button type="button" class="lang-option lang-option-nl" data-lang="nl">🇳🇱 Nederlands</button>
+            <button type="button" class="lang-option lang-option-de" data-lang="de">🇩🇪 Deutsch</button>
+            <button type="button" class="lang-option lang-option-fr" data-lang="fr">🇫🇷 Français</button>
+            <button type="button" class="lang-option lang-option-es" data-lang="es">🇪🇸 Español</button>
+            <button type="button" class="lang-option lang-option-pt" data-lang="pt">🇧🇷 Português</button>
+          </div>
+          <button type="button" id="languagePopupClose" class="language-popup-close">Close</button>
+        </div>
+      </div>
+      <div id="settingsOverlay" class="settings-overlay hidden">
+        <div id="normalSettingsPanel" class="settings-panel settings-panel-normal hidden">
+          <h3 id="settingsTitle" class="settings-title">Settings</h3>
+          <label class="settings-row settings-row-lq">
+            <input type="checkbox" id="lqModeCheckbox" class="lq-mode-cb" autocomplete="off">
+            <span class="settings-lq-mode-label" id="settingsLqMode">LQ mode</span>
+          </label>
+          <label class="settings-row">
+            <input type="checkbox" id="volumeCheckbox" checked="">
+            <span id="settingsSoundOn">Sound on (SFX)</span>
+          </label>
+          <label class="settings-row">
+            <span id="settingsSfxVolume" class="settings-label">SFX volume</span>
+            <input type="range" id="sfxVolumeInput" min="0" max="100" value="70">
+          </label>
+          <label class="settings-row">
+            <span id="settingsMusicVolume" class="settings-label">Music volume</span>
+            <input type="range" id="musicVolumeInput" min="0" max="100" value="60">
+          </label>
+          <button type="button" id="normalSettingsCloseBtn" class="settings-close-btn">Close</button>
+        </div>
+        <div id="forcingSettingsPanel" class="settings-panel settings-panel-normal hidden">
+          <h3 id="secretTitle" class="settings-title">Secret modes</h3>
+          <div id="forcingOptions">
+            <label class="settings-row">
+              <span id="secretModeLabel" class="settings-label">Mode:</span>
+              <select id="gameModeSelect" class="game-mode-select" aria-label="Choose mode">
+                <option value="normal">None (default)</option>
+                <option value="forcing">Forcing</option>
+                <option value="other">Multiple force</option>
+                <option value="leaderboard_force">Leaderboard force</option>
+              </select>
+            </label>
+            <div id="leaderboardForceOptions" class="forcing-mode-options" style="display: none;">
+              <label class="settings-row">
+                <span id="forcedLeaderboardRankLabel" class="settings-label">End at rank:</span>
+                <input type="number" id="forcedLeaderboardRankInput" min="1" max="10000" value="5000" aria-label="Rank 1 to 10000">
+              </label>
+              <div class="leaderboard-force-neighbors">
+                <div class="leaderboard-force-neighbors-section">
+                  <span id="forcedLbAboveGroup" class="settings-label leaderboard-force-neighbors-heading"></span>
+                  <div id="leaderboardForceNamesAboveList" class="multiple-force-list leaderboard-force-names-list"></div>
+                  <button type="button" id="addLeaderboardForceNameAboveBtn" class="add-multiple-force-btn" aria-label="Add name">+ Add</button>
+                </div>
+                <div class="leaderboard-force-neighbors-section">
+                  <span id="forcedLbBelowGroup" class="settings-label leaderboard-force-neighbors-heading"></span>
+                  <div id="leaderboardForceNamesBelowList" class="multiple-force-list leaderboard-force-names-list"></div>
+                  <button type="button" id="addLeaderboardForceNameBelowBtn" class="add-multiple-force-btn" aria-label="Add name">+ Add</button>
+                </div>
+              </div>
+            </div>
+            <div id="multipleForceOptions" class="multiple-force-options">
+              <div id="multipleForceTitle" class="settings-row multiple-force-title">Score + time (sec) per run:</div>
+              <div id="multipleForceList" class="multiple-force-list"></div>
+              <button type="button" id="addMultipleForceBtn" class="add-multiple-force-btn" aria-label="Add">+ Add</button>
+            </div>
+            <div id="forcingModeOptions" class="forcing-mode-options">
+            <label class="settings-row">
+              <span id="forcedScoreLabel">Forced score:</span>
+              <input type="number" id="forcedScoreInput" min="0" max="99" value="0">
+            </label>
+            <label class="settings-row">
+              <span id="forcedTimeLabel">Forced time (sec):</span>
+              <input type="number" id="forcedTimeInput" min="0" max="599" value="15">
+            </label>
+            <label class="settings-row">
+              <span id="forcedDelayLabel">Delay (replays):</span>
+              <input type="number" id="forcedDelayInput" min="0" max="20" value="0">
+            </label>
+            </div>
+            <div class="settings-row forcing-after-row" style="margin-top:0.75rem;">
+              <span id="secretAfterLabel" class="settings-label">After:</span>
+              <select id="forcingAfterSelect" class="game-mode-select" aria-label="After force">
+                <option value="off">Switch off</option>
+                <option value="repeat">Repeat</option>
+                <option value="next">Go to mode</option>
+              </select>
+            </div>
+            <div id="forcingAfterModeWrap" class="settings-row" style="display:none;">
+              <span class="settings-label" id="forcingAfterModeLabel">Next mode:</span>
+              <select id="forcingAfterModeSelect" class="game-mode-select" aria-label="Next mode">
+                <option value="normal">None (default)</option>
+                <option value="forcing">Forcing</option>
+                <option value="other">Multiple force</option>
+                <option value="leaderboard_force">Leaderboard force</option>
+              </select>
+            </div>
+            <div class="settings-row api-mode-section" style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.2);">
+              <span id="apiModeSectionHeading" class="settings-label">API mode</span>
+            </div>
+            <label class="settings-row">
+              <input type="checkbox" id="apiModeCheckbox">
+              <span id="apiModeCheckboxLabel">API mode on (live read/write)</span>
+            </label>
+            <div class="settings-row" id="apiKeyDisplayRow">
+              <span id="apiKeyRowLabel" class="settings-label">Your API key (bound to license)</span>
+              <span id="apiKeyDisplay" class="api-key-readonly">—</span>
+            </div>
+            <div id="pairingRegisterSection" class="pairing-register-section pairing-register-section--secret">
+              <div class="pairing-register-section-body">
+                <div class="settings-row pairing-register-heading-row">
+                  <span id="pairingSectionHeading" class="settings-label">Nickname pairing</span>
+                </div>
+                <p id="pairingSectionHint" class="spectator-mode-hint"></p>
+                <div class="settings-row pairing-register-controls">
+                  <span id="pairingRegisterFieldLabel" class="settings-label">Pairing name</span>
+                  <div class="pairing-register-input-group" role="group" aria-labelledby="pairingRegisterFieldLabel">
+                    <span class="pairing-register-dot-prefix" aria-hidden="true">.</span>
+                    <input type="text" id="pairingRegisterInput" class="license-input pairing-register-input" placeholder="xxxx" maxlength="35" autocomplete="off" spellcheck="false" inputmode="text">
+                  </div>
+                  <button type="button" id="pairingRegisterBtn" class="license-activate-btn">Save</button>
+                </div>
+                <p id="pairingRegisterStatus" class="pairing-register-status" aria-live="polite"></p>
+              </div>
+              <div id="pairingRegisterLockOverlay" class="pairing-register-lock-overlay hidden" aria-hidden="true">
+                <button type="button" id="pairingRegisterLockBtn" class="pairing-register-lock-btn" aria-label="Locked">🔒</button>
+              </div>
+            </div>
+            <div id="spectatorModeSection" class="spectator-mode-section">
+              <div class="settings-row spectator-mode-heading-row">
+                <span id="spectatorModeSectionHeading" class="settings-label">Spectator mode</span>
+              </div>
+              <p id="spectatorModeHint" class="spectator-mode-hint"></p>
+              <p id="spectatorModeUrlLine" class="spectator-mode-url-line hidden"><code id="spectatorModeUrl" class="spectator-mode-url"></code></p>
+            </div>
+            <div class="secret-tutorial-footer-row">
+              <button type="button" id="secretTutorialBtn" class="secret-tutorial-open-btn" hidden="">TUTORIAL</button>
+            </div>
+            <div class="secret-clear-cache-block">
+              <p id="clearCacheHint" class="clear-cache-hint"></p>
+              <button type="button" id="clearCacheBtn" class="clear-cache-btn">Hard reload</button>
+            </div>
+            <p id="secretCloseSaveHint" class="secret-close-save-hint"></p>
+            <button type="button" id="settingsCloseBtn" class="settings-close-btn">Close &amp; save</button>
+          </div>
+        </div>
+      </div>
+      <div id="secretTutorialOverlay" class="secret-tutorial-overlay hidden" aria-hidden="true">
+        <div class="secret-tutorial-panel" role="dialog" aria-labelledby="secretTutorialHeading" aria-modal="true">
+          <h3 id="secretTutorialHeading" class="secret-tutorial-title">Secret menu</h3>
+          <div id="secretTutorialBody" class="secret-tutorial-body"></div>
+          <button type="button" id="secretTutorialCloseBtn" class="restart-btn secret-tutorial-close-btn">Got it</button>
+        </div>
+      </div>
+      <div id="gameOverOverlay" class="overlay post-game-overlay hidden">
+        <div id="postGameSlides" class="post-game-slides">
+          <div id="gameOverSlide" class="post-game-slide post-game-slide-gameover">
+            <p id="gameOverTitle" class="game-over-title">Game Over</p>
+            <p class="game-over-score"><span id="finalScore">0</span></p>
+            <p class="game-over-timer"><span id="gameOverTimeLabel">Time:</span> <span id="gameOverTimer">0:00</span></p>
+            <p id="restartCountdownWrap" class="restart-countdown hidden" aria-live="polite"><span class="restart-countdown-icon" aria-hidden="true">🕐</span> <span id="restartCountdownPrefix">In </span><span id="restartCountdown">0</span><span id="restartCountdownSuffix"> sec...</span></p>
+            <button type="button" id="restartBtn" class="restart-btn">Play again</button>
+            <button type="button" id="gameOverToLeaderboardBtn" class="menu-btn game-over-to-leaderboard-btn hidden" aria-label="To leaderboard">To leaderboard</button>
+          </div>
+          <div id="leaderboardSlide" class="post-game-slide post-game-slide-leaderboard">
+            <div class="leaderboard-slide-bg" aria-hidden="true"></div>
+            <h2 id="leaderboardTitle" class="leaderboard-title">Leaderboard</h2>
+            <p id="leaderboardSubtitle" class="leaderboard-subtitle"></p>
+            <canvas id="leaderboardCanvas" class="leaderboard-canvas" width="440" height="400" aria-label="Top scores"></canvas>
+            <div class="leaderboard-actions">
+              <button type="button" id="leaderboardBackBtn" class="menu-btn leaderboard-back-btn">Back</button>
+              <button type="button" id="leaderboardRestartBtn" class="restart-btn">Play again</button>
+              <button type="button" id="leaderboardMenuBtn" class="menu-btn">Menu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="secondChanceOverlay" class="overlay hidden">
+        <p id="secondChanceTitle" class="game-over-title">Second chance</p>
+        <p id="secondChanceMessage" class="game-over-timer">You were actually out...</p>
+        <button type="button" id="secondChanceBtn" class="restart-btn">Continue</button>
+      </div>
+      <div id="pauseOverlay" class="overlay pause-overlay hidden">
+        <div class="pause-panel">
+          <p id="pauseTitle" class="game-over-title">Paused</p>
+          <label class="pause-lq-row">
+            <input type="checkbox" id="lqModeCheckboxPause" class="lq-mode-cb" autocomplete="off">
+            <span class="settings-lq-mode-label">LQ mode</span>
+          </label>
+          <button type="button" id="pauseResumeBtn" class="restart-btn pause-resume-btn">Back to game</button>
+          <button type="button" id="pauseMenuBtn" class="menu-btn">Menu</button>
+          <button type="button" id="pauseSettingsBtn" class="pause-option-btn">⚙ Settings</button>
+          <button type="button" id="pauseLangBtn" class="pause-option-btn">🇬🇧 Language</button>
+        </div>
+      </div>
+      <div id="pauseCountdownOverlay" class="pause-countdown-overlay hidden">
+        <span id="pauseCountdownNumber" class="pause-countdown-number">3</span>
+      </div>
+      <canvas id="confettiCanvas" class="confetti-canvas hidden" aria-hidden="true"></canvas>
+    </div>
+  </main>
+  <script src="js/game.js"></script>
+
+
+</body></html>
