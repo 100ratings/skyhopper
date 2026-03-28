@@ -4175,26 +4175,29 @@
     if (!(scale > 0) || scale < 1e-6) scale = 1;
     var gravity = CONFIG.gravity * scale;
     if (forceKillActive) {
-      // Puxar suavemente para o obstáculo mais próximo ou chão/teto
-      var targetY = (forceKillDirection > 0) ? CONFIG.groundY : 0;
+      // --- FISICA DE FADIGA (Morte Indetectavel) ---
+      // Aumentar a gravidade progressivamente para o passaro ficar "pesado"
+      gravity += (0.15 * scale); 
       
-      // Tentar encontrar o cano mais próximo para colidir
+      // Tentar encontrar o cano mais proximo para colidir na quina (clip)
+      var targetY = (forceKillDirection > 0) ? CONFIG.groundY : 0;
       for (var i = 0; i < pipes.length; i++) {
         var p = pipes[i];
-        if (p.x + p.width > bird.x) {
-          // Se estivermos perto do cano, mirar no gapTop ou gapBottom
+        // Se o passaro ja passou do inicio do cano mas nao do fim
+        if (bird.x + CONFIG.birdRadius > p.x && bird.x - CONFIG.birdRadius < p.x + p.width) {
+          // Mirar exatamente na quina (gapTop ou gapBottom) com um offset de "quase passou"
           if (forceKillDirection > 0) {
-            targetY = p.gapBottom + 5;
+            targetY = p.gapBottom - 2; // Bater na quina de baixo subindo
           } else {
-            targetY = p.gapTop - 5;
+            targetY = p.gapTop + 2;    // Bater na quina de cima descendo
           }
+          
+          // Aplicar uma forca de atracao magnetica sutil para a quina
+          var diffY = targetY - bird.y;
+          bird.vy += (diffY * 0.08) * scale; 
           break;
         }
       }
-      
-      var diffY = targetY - bird.y;
-      bird.vy += (diffY * 0.05) * scale; // Atração suave
-      gravity += (forceKillDirection * 0.2) * scale; // Gravidade extra sutil
     }
     if (pendingFlapImpulse) {
       /**
