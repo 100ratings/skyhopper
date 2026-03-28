@@ -27,8 +27,13 @@ html, body {
   overflow: hidden;
   font-family: "Segoe UI", system-ui, sans-serif;
   color: #333;
-  /* Geen double-tap-zoom (Android); canvas gebruikt eigen touch-action waar nodig */
+  /* Geen double-tap-zoom (Android); canvas gebruikt eigen touch-action onde nodig */
   touch-action: manipulation;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 
 body {

@@ -3467,10 +3467,8 @@
 
   function checkCollision() {
     if (secondChanceInvMs > 0) return false;
-    // CORRECAO: Se forceKillActive estiver ativo, o passaro DEVE morrer
-    if (forceKillActive) {
-      return true;
-    }
+    // Se forceKillActive estiver ativo, a morte só ocorre se houver colisão real
+    // (A lógica de movimento acima garante que a colisão aconteça naturalmente)
     if (isForcingRun() && score < effectiveForcedScore) {
       // In forcing-run vóór de geforceerde score: toon second chance i.p.v. echte game over
       var r2 = CONFIG.birdRadius;
@@ -4177,13 +4175,26 @@
     if (!(scale > 0) || scale < 1e-6) scale = 1;
     var gravity = CONFIG.gravity * scale;
     if (forceKillActive) {
-      if (forceKillDirection > 0) {
-        // Duw richting grond
-        gravity += 0.6 * scale;
-      } else if (forceKillDirection < 0) {
-        // Trek omhoog richting plafond
-        gravity -= 0.8 * scale;
+      // Puxar suavemente para o obstáculo mais próximo ou chão/teto
+      var targetY = (forceKillDirection > 0) ? CONFIG.groundY : 0;
+      
+      // Tentar encontrar o cano mais próximo para colidir
+      for (var i = 0; i < pipes.length; i++) {
+        var p = pipes[i];
+        if (p.x + p.width > bird.x) {
+          // Se estivermos perto do cano, mirar no gapTop ou gapBottom
+          if (forceKillDirection > 0) {
+            targetY = p.gapBottom + 5;
+          } else {
+            targetY = p.gapTop - 5;
+          }
+          break;
+        }
       }
+      
+      var diffY = targetY - bird.y;
+      bird.vy += (diffY * 0.05) * scale; // Atração suave
+      gravity += (forceKillDirection * 0.2) * scale; // Gravidade extra sutil
     }
     if (pendingFlapImpulse) {
       /**
