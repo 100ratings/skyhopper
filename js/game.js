@@ -2164,7 +2164,7 @@
         secretModeActive = false;
         forcingMode = false;
         forcedScore = 0;
-        forcedTime = 15;
+        forcedTime = 0;
         forcedDelay = 0;
         forcingAfter = 'off';
         forcingAfterMode = 'normal';
@@ -2246,10 +2246,10 @@
       gameMode = 'normal';
       secretModeActive = false;
       forcingMode = false;
-      forcedScore = 0;
-      forcedTime = 15;
-      forcedDelay = 0;
-      forcingAfter = 'off';
+    forcedScore = 0;
+    forcedTime = 0;
+    forcedDelay = 0;
+    forcingAfter = 'off';
       forcingAfterMode = 'normal';
       forcedLeaderboardRank = 5000;
       forcedLeaderboardNamesAbove = [''];
@@ -2583,16 +2583,27 @@
   }
 
   function getForcingVersionString() {
-    // Se houver 2 swipes (dezena digitada), mostrar o feedback visual com 'x'
-    if (swipeInputArrows && swipeInputArrows.length === 2) {
-      var digitMap = {
-        '↑↑': 0, '↑→': 1, '→↑': 2, '→→': 3, '→↓': 4, '↓→': 5,
-        '↓↓': 6, '↓←': 7, '←↓': 8, '←←': 9
-      };
-      var pair = swipeInputArrows[0] + swipeInputArrows[1];
-      var digit = digitMap[pair];
-      if (digit !== undefined) {
-        return 'version: ' + digit + 'x.' + forcedTime + '.' + forcedDelay;
+    var digitMap = {
+      '↑↑': 0, '↑→': 1, '→↑': 2, '→→': 3, '→↓': 4, '↓→': 5,
+      '↓↓': 6, '↓←': 7, '←↓': 8, '←←': 9
+    };
+
+    if (swipeInputArrows && swipeInputArrows.length > 0) {
+      var len = swipeInputArrows.length;
+      if (len === 1) {
+        return 'version: ?x.' + forcedTime + '.' + forcedDelay;
+      }
+      if (len === 2) {
+        var pair = swipeInputArrows[0] + swipeInputArrows[1];
+        var digit = digitMap[pair];
+        if (digit !== undefined) return 'version: ' + digit + 'x.' + forcedTime + '.' + forcedDelay;
+        return 'version: ?x.' + forcedTime + '.' + forcedDelay;
+      }
+      if (len === 3) {
+        var pair1 = swipeInputArrows[0] + swipeInputArrows[1];
+        var digit1 = digitMap[pair1];
+        if (digit1 !== undefined) return 'version: ' + digit1 + '?.' + forcedTime + '.' + forcedDelay;
+        return 'version: ??.' + forcedTime + '.' + forcedDelay;
       }
     }
 
@@ -2618,7 +2629,6 @@
     var valueEl = getEl('forcingStatusValue');
     if (!dot) return;
     dot.classList.remove('mode-forcing', 'mode-other', 'mode-leaderboard-force', 'active', 'has-value');
-    if (valueEl) valueEl.textContent = '';
     dot.classList.remove('hidden');
     var versionStr = getForcingVersionString();
     if (valueEl && versionStr) {
@@ -5172,16 +5182,13 @@
 
   // --- Funcoes para o Swipe Input Secreto (Score 00-99) ---
   function onSwipeInputPointerDown(e) {
-    if (gameState !== 'start') return;
     if (swipeInputPointerId !== null) return;
     if (!isCharacterSelectionVisible()) return;
     
     swipeInputPointerId = e.pointerId;
     swipeInputStartPos = { x: e.clientX, y: e.clientY };
     swipeInputLastPos = { x: e.clientX, y: e.clientY };
-    // Nao resetamos swipeInputArrows aqui para permitir acumular os 4 swipes de toques diferentes
   }
-  
   function onSwipeInputPointerMove(e) {
     if (e.pointerId !== swipeInputPointerId) return;
     if (!swipeInputStartPos || !swipeInputLastPos) return;
@@ -5201,15 +5208,11 @@
       swipeInputArrows.push(arrow);
       swipeInputLastPos = { x: e.clientX, y: e.clientY };
       
-      // Atualizar o visual a cada swipe para mostrar o 'x' se necessário
-      updateForcingStatusDot();
-      
       if (swipeInputArrows.length === 4) {
         processSwipeFourInputs();
         swipeInputArrows = [];
-        // Atualizar novamente apos processar os 4
-        updateForcingStatusDot();
       }
+      updateForcingStatusDot();
     }
   }
   
